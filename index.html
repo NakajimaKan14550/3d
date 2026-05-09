@@ -27,6 +27,7 @@
             line-height: 1.7;
         }
 
+        /* Navigation */
         nav {
             background: #fff;
             padding: 15px 40px;
@@ -43,6 +44,7 @@
             cursor: pointer;
         }
 
+        /* Hero Area */
         .hero {
             background: var(--main-color);
             color: #fff;
@@ -75,6 +77,7 @@
             max-width: 700px;
         }
 
+        /* Layout Grid */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -126,26 +129,14 @@
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
 
-        .table-wrapper {
-            overflow-x: auto;
-            margin: 20px 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        /* Image Display & Zoom */
+        .img-container {
+            text-align: center;
+            margin: 30px 0;
             background: #fff;
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: left;
+            padding: 20px;
+            border-radius: 8px;
             border: 1px solid var(--border-color);
-        }
-
-        th {
-            background: #f1f5f9;
-            color: var(--main-color);
         }
 
         img {
@@ -156,22 +147,16 @@
             border-radius: 4px;
         }
 
-        .img-container {
-            text-align: center;
-            margin: 30px 0;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
         .zoomed {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(1.8);
+            transform: translate(-50%, -50%) scale(1.4);
             z-index: 2000;
             cursor: zoom-out !important;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            max-height: 90vh;
+            width: auto;
         }
 
         .overlay {
@@ -180,21 +165,18 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             z-index: 1999;
             display: none;
         }
 
-        ul {
-            list-style-type: none;
-        }
-
+        /* Lists & Tables */
+        ul { list-style-type: none; }
         ul li {
             position: relative;
             padding-left: 20px;
             margin-bottom: 10px;
         }
-
         ul li::before {
             content: '•';
             color: var(--accent-color);
@@ -203,12 +185,10 @@
             font-weight: bold;
         }
 
-        footer {
-            background: var(--main-color);
-            color: #fff;
-            padding: 60px 20px;
-            text-align: center;
-        }
+        .table-wrapper { overflow-x: auto; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; background: #fff; }
+        th, td { padding: 15px; text-align: left; border: 1px solid var(--border-color); }
+        th { background: #f1f5f9; color: var(--main-color); }
 
         .tech-tag {
             display: inline-block;
@@ -221,9 +201,11 @@
             font-weight: bold;
         }
 
+        footer { background: var(--main-color); color: #fff; padding: 60px 20px; text-align: center; }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 1.8rem; }
-            .zoomed { transform: translate(-50%, -50%) scale(1.1); }
+            .zoomed { transform: translate(-50%, -50%) scale(1.0); width: 95%; }
         }
     </style>
 </head>
@@ -247,135 +229,89 @@
 
 <main class="container">
 
-    <section id="market-structure">
-        <h2>【背景】宇宙ビジネスの変遷と電子部品の要求</h2>
-        <p>宇宙産業は、伝統的な国家プロジェクト（Old Space）から民間主導の迅速な開発（New Space）へと構造が変化しています。それぞれのミッション特性に応じた部品選定基準の理解が不可欠です。</p>
-        
-        <div class="grid">
-            <div class="card">
-                <span class="tech-tag">Old Space</span>
-                <h3>大型・高信頼性ミッション</h3>
-                <p><strong>主な主体：</strong> JAXA、ESA、NASA、三菱電機(MELCO)、NEC、三菱重工(MHI)等。</p>
-                <ul>
-                    <li><strong>ミッション：</strong> 大型気象衛星、有人宇宙探査、はやぶさ等の深宇宙ミッション。</li>
-                    <li><strong>要求：</strong> 10年単位の長期信頼性、Mil-spec/ESA規格への完全準拠。</li>
-                </ul>
-            </div>
-            <div class="card">
-                <span class="tech-tag">New Space</span>
-                <h3>小型・低コスト・迅速ミッション</h3>
-                <p><strong>主な主体：</strong> スタートアップ、iSPACE、OneWeb等。</p>
-                <ul>
-                    <li><strong>ミッション：</strong> 50kg〜100kg以下のナノ衛星コンステレーション、1〜3年の短期間運用。</li>
-                    <li><strong>戦略：</strong> 自動車産業向け部品(AEC-Q100/200)の活用による「目利き」と「コスト・納期」の両立。</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="table-wrapper">
-            <h3>実機運用（FM）と開発（EM）の厳格な区分</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>項目</th>
-                        <th>EM品 (Engineering Model)</th>
-                        <th>FM品 (Flight Model)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>用途</td>
-                        <td>評価・開発・試作用</td>
-                        <td>実機搭載・宇宙打上げ用</td>
-                    </tr>
-                    <tr>
-                        <td>信頼性</td>
-                        <td>民生品＋α（温度範囲緩和）</td>
-                        <td>極めて高い（Mil-spec準拠）</td>
-                    </tr>
-                    <tr>
-                        <td>規格</td>
-                        <td>社内基準・緩やかな品質管理</td>
-                        <td>DLA(米)、ESA(欧)等の公的規格</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <section id="core-technology">
-        <h2>【解決策】3次元積層（SiP）による物理的限界の突破</h2>
-        <p>3D PLUSは、ベアダイを垂直方向に重ねる独自の <strong>SiP (System in Package)</strong> 技術により、小型化と高信頼性を両立しています。これは単なる積層ではなく、過酷な環境に耐えるための材料工学と回路設計の結晶です。</p>
-
-        <div class="grid">
-            <div class="card">
-                <h3>3D-module（立体実装）の優位性</h3>
-                <ul>
-                    <li><strong>圧倒的な小型化：</strong> ベアダイを垂直に重ねることで、平面実装と比較し体積を劇的に削減。</li>
-                    <li><strong>堅牢なパッケージング：</strong> ニッケル/ゴールドメッキ処理に加え、磁気・放射線ガード（遮蔽）を施し、腐食やガス放出（Outgassing）を防止。</li>
-                    <li><strong>ハイブリッド実装：</strong> ロジック、メモリ、受動部品（コイル、コンデンサ）を単一パッケージに混在。</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3>システムレベルの放射線補正</h3>
-                <ul>
-                    <li><strong>TMR (3重系冗長)：</strong> 同一回路を3系統備え、多数決により放射線によるビット反転（SEU）を自動修正。</li>
-                    <li><strong>ラッチアップ保護：</strong> 放射線による過電流を検知し、素子破壊前に電源を遮断・リセット。</li>
-                    <li><strong>EDAC：</strong> ソフトウェアによるメモリエラー検知・訂正。</li>
-                </ul>
-            </div>
-        </div>
+    <section id="environment">
+        <h2>【背景・課題】宇宙環境の過酷さと要求仕様</h2>
+        <p>宇宙空間での運用には、地球上の民生品とは一線を画す「温度変化への耐性」と「放射線対策」が物理的絶対条件となります。</p>
 
         <div class="img-container">
-            
-            <p><small>図：SiP（System in Package）技術による垂直積層構造と遮蔽設計</small></p>
+            <img src="3d-2.png" alt="宇宙電子部品要求とグレード区分ビジュアルマップ">
+            <p><small>図1：宇宙環境の物理的負荷と部品グレード（EM/FM）の区分（クリックで拡大）</small></p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>過酷な物理条件</h3>
+                <ul>
+                    <li><strong>温度範囲：</strong> -55°C 〜 +125°C。急激な熱サイクルへの耐性。</li>
+                    <li><strong>放射線対策：</strong> krad/Mrad単位の総イオン化線量耐性と、Single Event対策。</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>信頼性の区分</h3>
+                <ul>
+                    <li><strong>EM品 (Engineering Model)：</strong> 開発・評価用。ロット共通化によるコスト低減。</li>
+                    <li><strong>FM品 (Flight Model)：</strong> 実機用。Mil-spec準拠、ウェハーレベルのトレーサビリティ。</li>
+                </ul>
+            </div>
         </div>
     </section>
 
-    <section id="products">
-        <h2>【実装】FUSIO RT と 宇宙用カメラシリーズ</h2>
-        
-        <h3>FUSIO RT: 再構成可能な宇宙の「頭脳」</h3>
-        <p>FPGAを中心にメモリ・電源を統合したFUSIO RTは、打ち上げ後のアルゴリズム変更（On-orbit reconfiguration）を可能にします。</p>
-        <div class="grid">
-            <div class="card">
-                <p><strong>FPGA + メモリ集積：</strong> 3cm角のBGAパッケージ内に、FPGA、DDR、NAND Flash(最大64Gb)、POL(電源)を全て内蔵。配線距離の短縮による高速化と省スペース化を実現。</p>
-            </div>
-            <div class="card">
-                <p><strong>放射線ガード：</strong> 設定データ（コンフィギュレーション）をTMR技術で保護し、過酷な宇宙放射線下でも「暴走しない」FPGA環境を提供。</p>
-            </div>
-        </div>
-
-        <h3>CASPEX / IRIS: 世界最小クラスの宇宙用カメラ</h3>
-        <p>センサー、FPGA、メモリを一体化したCASPEXは、衛星の姿勢制御（スタートラッカー）やモニタリングに革命をもたらしました。</p>
-        <ul>
-            <li><strong>実績：</strong> OneWebコンステレーションに大量採用。</li>
-            <li><strong>IRIS：</strong> レンズまで一体化した最新の光学システムパッケージ。</li>
-        </ul>
-    </section>
-
-    <section id="mars-mission">
-        <h2>【応用】火星探査「分光分析」への貢献</h2>
-        <p>NASAの火星探査車「パーサヴィアランス」に搭載された3D PLUSの技術は、生命の痕跡を探る「分光分析」において決定的な役割を果たしています。</p>
-        
-        <div class="grid">
-            <div class="card">
-                <h3>分光分析とデータ処理</h3>
-                <p>火星の石が「含水鉱物（水があった証拠）」か「酸化鉄」かを識別するには、光の波長を分析する分光カメラが必須です。3D PLUSの対放射線メモリは、取得した膨大なハイパースペクトルデータを地球送信まで安全に保持します。</p>
-            </div>
-            <div class="card">
-                <h3>高度なデータ圧縮</h3>
-                <p>通信速度の遅い火星・地球間において、FUSIO RT(FPGA)が軌道上（オンボード）でリアルタイムにデータを圧縮し、効率的な通信を支えています。</p>
-            </div>
-        </div>
+    <section id="fpga-tech">
+        <h2>【解決策】FUSIO RT：再構成可能な高密度モジュール</h2>
+        <p>3D PLUSの核心技術である「3次元積層（SiP）」は、複数のチップを垂直に統合し、放射線ガードと多数決回路（TMR）をハードウェアレベルで実装します。</p>
 
         <div class="img-container">
-            
-            <p><small>図：火星探査における分光データ処理のプロセスイメージ</small></p>
+            <img src="3d.png" alt="3D PLUS 宇宙用FPGA技術とFUSIO RT詳細解説">
+            <p><small>図2：FUSIO RTの内部構造とFPGA再構成技術の仕組み（クリックで拡大）</small></p>
         </div>
 
-        <h3>産業的インパクトと主要顧客</h3>
-        <p>3D PLUSの技術は、BAE, Airbus, Thales, CNES, Boeing, iSPACE等のグローバルリーダーに選ばれており、防衛・探査・商用の全域で「Hi-Rel（高信頼性）」の標準となっています。</p>
+        <div class="grid">
+            <div class="card">
+                <h3>FPGAの再構成（書き換え）機能</h3>
+                <p>「打ち上げた後でも中身を書き換えられる」FPGAを中核に据え、地上からの通信で新アルゴリズムの適用やバグ修正を可能にします。</p>
+            </div>
+            <div class="card">
+                <h3>TMR (3重系冗長)</h3>
+                <p>モジュール内の設定メモリを3重化し、常に多数決（Voting）を取ることで、放射線によるビット反転（SEU）を自動修正し、動作を継続させます。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="camera-solutions">
+        <h2>【実装】宇宙用カメラ製品群：CASPEX / IRIS</h2>
+        <p>センサー、FPGA、メモリを1辺約3cmの超小型パッケージに凝縮。深宇宙探査から衛星コンステレーションまで、幅広い実績を誇ります。</p>
+
+        <div class="img-container">
+            <img src="3d-3.png" alt="3D PLUS 宇宙用カメラ製品群 CASPEX">
+            <p><small>図3：CASPEXおよびIRISの製品構成と採用実績（クリックで拡大）</small></p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>CASPEX（キャスペックス）</h3>
+                <ul>
+                    <li><strong>特徴：</strong> 3次元積層技術によりセンサー・処理部を一体化。</li>
+                    <li><strong>実績：</strong> OneWebのモニタリングカメラ、スタートラッカーに採用。</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>IRIS / SuperCam</h3>
+                <ul>
+                    <li><strong>IRIS：</strong> レンズ一体型の統合カメラパッケージ。</li>
+                    <li><strong>SuperCam：</strong> NASA火星探査車「パーサヴィアランス」に3D PLUSのマイクロカメラが採用。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="impact">
+        <h2>【産業的インパクト】グローバル連携とNew Spaceへの貢献</h2>
+        <p>3D PLUSは、ESA（欧州宇宙機関）やNASAの公的規格に準拠しつつ、最新の微細化プロセスを持つ車載品を宇宙品質へと昇華（Screening）させることで、宇宙ビジネスのスピードと信頼性を両立させています。</p>
+        
+        <div class="card">
+            <h3>主要な連携・顧客</h3>
+            <p>Airbus, CNES, OneWeb, iSPACE, NICT, MPCなど、世界および日本の主要宇宙産業プレーヤーと強固なパートナーシップを構築しています。</p>
+        </div>
     </section>
 
 </main>
@@ -405,22 +341,38 @@
         const overlay = document.getElementById('overlay');
 
         images.forEach(img => {
-            img.addEventListener('click', () => {
+            img.addEventListener('click', (e) => {
+                if (img.src.includes('logo.png')) return; // ロゴは除外
+                
                 if (!img.classList.contains('zoomed')) {
+                    // Zoom In
                     img.classList.add('zoomed');
                     overlay.style.display = 'block';
                 } else {
+                    // Zoom Out
                     img.classList.remove('zoomed');
                     overlay.style.display = 'none';
                 }
             });
         });
 
+        // 背景クリックで戻る
         overlay.addEventListener('click', () => {
             const zoomedImg = document.querySelector('.zoomed');
             if (zoomedImg) {
                 zoomedImg.classList.remove('zoomed');
                 overlay.style.display = 'none';
+            }
+        });
+
+        // Escキーで戻る
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const zoomedImg = document.querySelector('.zoomed');
+                if (zoomedImg) {
+                    zoomedImg.classList.remove('zoomed');
+                    overlay.style.display = 'none';
+                }
             }
         });
     });

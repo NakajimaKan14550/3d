@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D PLUS 技術解説 | クロニクス株式会社</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --main-color: #091a2d;
+            --accent-color: #f97316;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        nav {
+            background: #fff;
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        nav img {
+            height: 40px;
+            cursor: pointer;
+        }
+
+        .hero {
+            background: var(--main-color);
+            color: #fff;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hero-logo {
+            height: 60px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            max-width: 700px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        section {
+            margin-bottom: 80px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--main-color);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h2::before {
+            content: '';
+            width: 8px;
+            height: 32px;
+            background: var(--accent-color);
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin: 25px 0 15px;
+            color: var(--main-color);
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background: #f1f5f9;
+            color: var(--main-color);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            cursor: zoom-in;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .img-container {
+            text-align: center;
+            margin: 30px 0;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .zoomed {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.8);
+            z-index: 2000;
+            cursor: zoom-out !important;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1999;
+            display: none;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        ul li::before {
+            content: '•';
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        footer {
+            background: var(--main-color);
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            color: var(--main-color);
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; }
+            .zoomed { transform: translate(-50%, -50%) scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<nav>
+    <a href="https://nakajimakan14550.github.io/home/">
+        <img src="logo.png" alt="Chronix Logo" onerror="this.src='https://via.placeholder.com/150x40?text=CHRONIX'">
+    </a>
+</nav>
+
+<header class="hero">
+    <div class="hero-content">
+        <img src="logo.png" alt="Chronix Logo" class="hero-logo" onerror="this.style.display='none'">
+        <h1>3D PLUS: 宇宙・極限環境向け3次元積層技術</h1>
+        <p>フランスを拠点とする世界最高峰のマイクロエレクトロニクス・パッケージング技術。25年以上の実績とESA認定に基づく高信頼性ソリューションを解説します。</p>
+    </div>
+</header>
+
+<main class="container">
+
+    <section id="market-structure">
+        <h2>【背景】宇宙ビジネスの変遷と電子部品の要求</h2>
+        <p>宇宙産業は、伝統的な国家プロジェクト（Old Space）から民間主導の迅速な開発（New Space）へと構造が変化しています。それぞれのミッション特性に応じた部品選定基準の理解が不可欠です。</p>
+        
+        <div class="grid">
+            <div class="card">
+                <span class="tech-tag">Old Space</span>
+                <h3>大型・高信頼性ミッション</h3>
+                <p><strong>主な主体：</strong> JAXA、ESA、NASA、三菱電機(MELCO)、NEC、三菱重工(MHI)等。</p>
+                <ul>
+                    <li><strong>ミッション：</strong> 大型気象衛星、有人宇宙探査、はやぶさ等の深宇宙ミッション。</li>
+                    <li><strong>要求：</strong> 10年単位の長期信頼性、Mil-spec/ESA規格への完全準拠。</li>
+                </ul>
+            </div>
+            <div class="card">
+                <span class="tech-tag">New Space</span>
+                <h3>小型・低コスト・迅速ミッション</h3>
+                <p><strong>主な主体：</strong> スタートアップ、iSPACE、OneWeb等。</p>
+                <ul>
+                    <li><strong>ミッション：</strong> 50kg〜100kg以下のナノ衛星コンステレーション、1〜3年の短期間運用。</li>
+                    <li><strong>戦略：</strong> 自動車産業向け部品(AEC-Q100/200)の活用による「目利き」と「コスト・納期」の両立。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <h3>実機運用（FM）と開発（EM）の厳格な区分</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>項目</th>
+                        <th>EM品 (Engineering Model)</th>
+                        <th>FM品 (Flight Model)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>用途</td>
+                        <td>評価・開発・試作用</td>
+                        <td>実機搭載・宇宙打上げ用</td>
+                    </tr>
+                    <tr>
+                        <td>信頼性</td>
+                        <td>民生品＋α（温度範囲緩和）</td>
+                        <td>極めて高い（Mil-spec準拠）</td>
+                    </tr>
+                    <tr>
+                        <td>規格</td>
+                        <td>社内基準・緩やかな品質管理</td>
+                        <td>DLA(米)、ESA(欧)等の公的規格</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="core-technology">
+        <h2>【解決策】3次元積層（SiP）による物理的限界の突破</h2>
+        <p>3D PLUSは、ベアダイを垂直方向に重ねる独自の <strong>SiP (System in Package)</strong> 技術により、小型化と高信頼性を両立しています。これは単なる積層ではなく、過酷な環境に耐えるための材料工学と回路設計の結晶です。</p>
+
+        <div class="grid">
+            <div class="card">
+                <h3>3D-module（立体実装）の優位性</h3>
+                <ul>
+                    <li><strong>圧倒的な小型化：</strong> ベアダイを垂直に重ねることで、平面実装と比較し体積を劇的に削減。</li>
+                    <li><strong>堅牢なパッケージング：</strong> ニッケル/ゴールドメッキ処理に加え、磁気・放射線ガード（遮蔽）を施し、腐食やガス放出（Outgassing）を防止。</li>
+                    <li><strong>ハイブリッド実装：</strong> ロジック、メモリ、受動部品（コイル、コンデンサ）を単一パッケージに混在。</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>システムレベルの放射線補正</h3>
+                <ul>
+                    <li><strong>TMR (3重系冗長)：</strong> 同一回路を3系統備え、多数決により放射線によるビット反転（SEU）を自動修正。</li>
+                    <li><strong>ラッチアップ保護：</strong> 放射線による過電流を検知し、素子破壊前に電源を遮断・リセット。</li>
+                    <li><strong>EDAC：</strong> ソフトウェアによるメモリエラー検知・訂正。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="img-container">
+            
+            <p><small>図：SiP（System in Package）技術による垂直積層構造と遮蔽設計</small></p>
+        </div>
+    </section>
+
+    <section id="products">
+        <h2>【実装】FUSIO RT と 宇宙用カメラシリーズ</h2>
+        
+        <h3>FUSIO RT: 再構成可能な宇宙の「頭脳」</h3>
+        <p>FPGAを中心にメモリ・電源を統合したFUSIO RTは、打ち上げ後のアルゴリズム変更（On-orbit reconfiguration）を可能にします。</p>
+        <div class="grid">
+            <div class="card">
+                <p><strong>FPGA + メモリ集積：</strong> 3cm角のBGAパッケージ内に、FPGA、DDR、NAND Flash(最大64Gb)、POL(電源)を全て内蔵。配線距離の短縮による高速化と省スペース化を実現。</p>
+            </div>
+            <div class="card">
+                <p><strong>放射線ガード：</strong> 設定データ（コンフィギュレーション）をTMR技術で保護し、過酷な宇宙放射線下でも「暴走しない」FPGA環境を提供。</p>
+            </div>
+        </div>
+
+        <h3>CASPEX / IRIS: 世界最小クラスの宇宙用カメラ</h3>
+        <p>センサー、FPGA、メモリを一体化したCASPEXは、衛星の姿勢制御（スタートラッカー）やモニタリングに革命をもたらしました。</p>
+        <ul>
+            <li><strong>実績：</strong> OneWebコンステレーションに大量採用。</li>
+            <li><strong>IRIS：</strong> レンズまで一体化した最新の光学システムパッケージ。</li>
+        </ul>
+    </section>
+
+    <section id="mars-mission">
+        <h2>【応用】火星探査「分光分析」への貢献</h2>
+        <p>NASAの火星探査車「パーサヴィアランス」に搭載された3D PLUSの技術は、生命の痕跡を探る「分光分析」において決定的な役割を果たしています。</p>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>分光分析とデータ処理</h3>
+                <p>火星の石が「含水鉱物（水があった証拠）」か「酸化鉄」かを識別するには、光の波長を分析する分光カメラが必須です。3D PLUSの対放射線メモリは、取得した膨大なハイパースペクトルデータを地球送信まで安全に保持します。</p>
+            </div>
+            <div class="card">
+                <h3>高度なデータ圧縮</h3>
+                <p>通信速度の遅い火星・地球間において、FUSIO RT(FPGA)が軌道上（オンボード）でリアルタイムにデータを圧縮し、効率的な通信を支えています。</p>
+            </div>
+        </div>
+
+        <div class="img-container">
+            
+            <p><small>図：火星探査における分光データ処理のプロセスイメージ</small></p>
+        </div>
+
+        <h3>産業的インパクトと主要顧客</h3>
+        <p>3D PLUSの技術は、BAE, Airbus, Thales, CNES, Boeing, iSPACE等のグローバルリーダーに選ばれており、防衛・探査・商用の全域で「Hi-Rel（高信頼性）」の標準となっています。</p>
+    </section>
+
+</main>
+
+<footer style="background: #091a2d; color: #fff; padding: 60px 20px; text-align: center;">
+    <div class="footer-info">
+        <p class="company-name" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 20px;">クロニクス株式会社</p>
+        <address class="footer-address" style="font-style: normal; line-height: 1.8; color: #cbd5e1;">
+            <p>〒160-0023 東京都新宿区西新宿3-2-11 新宿三井ビルディング二号館 904室</p>
+            <div class="contact-grid" style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
+                <p><strong>TEL</strong> 03-5322-7191</p>
+                <p><strong>FAX</strong> 03-5322-7790</p>
+            </div>
+        </address>
+        <a href="mailto:sales@chronix.co.jp" class="btn-contact" style="display: inline-block; background: #f97316; color: white; padding: 12px 30px; border-radius: 5px; text-decoration: none; margin-top: 20px;">
+            <i class="fas fa-envelope" style="margin-right: 10px;"></i>メールでお問い合わせ
+        </a>
+        <p style="margin-top: 50px; font-size: 0.8rem; color: #64748b; letter-spacing: 0.05em;">
+            © 2026 CHRONIX
+        </p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const images = document.querySelectorAll('img');
+        const overlay = document.getElementById('overlay');
+
+        images.forEach(img => {
+            img.addEventListener('click', () => {
+                if (!img.classList.contains('zoomed')) {
+                    img.classList.add('zoomed');
+                    overlay.style.display = 'block';
+                } else {
+                    img.classList.remove('zoomed');
+                    overlay.style.display = 'none';
+                }
+            });
+        });
+
+        overlay.addEventListener('click', () => {
+            const zoomedImg = document.querySelector('.zoomed');
+            if (zoomedImg) {
+                zoomedImg.classList.remove('zoomed');
+                overlay.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
